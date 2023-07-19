@@ -1,6 +1,6 @@
-module top_module( output one );
+`timescale 1ps/1ps
 
+module top_module( output one );
 // Insert your code here
     assign one = 1'b1;
-
 endmodule

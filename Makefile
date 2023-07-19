@@ -29,7 +29,7 @@ endif
 ######################################################################
 TARGET ?= $(FDIR)/.default_sim
 TARGET_ABS := $(abspath $(TARGET))
-CHECK_T = top.v sim_main.cpp
+CHECK_T = top.sv sim_main.cpp
 
 .PHONY: default check clean
 
@@ -38,7 +38,7 @@ default: clean check
 	@echo "-- TARGET_ABS = $(notdir $(TARGET_ABS))"
 	@echo "-- VERILATE & BUILD --------"
 	cd $(FDIR)/build/$(notdir $(TARGET_ABS)); \
-	$(VERILATOR) -cc --exe --build -j $(TARGET_ABS)/top.v $(TARGET_ABS)/sim_main.cpp
+	$(VERILATOR) -cc --exe --build -j +incdir+$(TARGET_ABS) $(TARGET_ABS)/top.sv $(TARGET_ABS)/sim_main.cpp
 	@echo "-- RUN ---------------------"
 	@echo "-- RUN ---------------------"
 	@echo "-- RUN ---------------------"
