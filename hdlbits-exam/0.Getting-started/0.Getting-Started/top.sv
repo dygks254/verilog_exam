@@ -9,7 +9,6 @@ module top;
 
   initial begin
     $display("Output value : 0x%0h", a);
-    #10;
     $display("Output value : 0x%0h", a);
     $finish;
   end
