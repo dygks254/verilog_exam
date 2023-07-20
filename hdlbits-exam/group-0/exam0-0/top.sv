@@ -10,7 +10,10 @@ module top;
   initial begin
     $display("Output value : 0x%0h", a);
     $display("Output value : 0x%0h", a);
-    $finish;
+    if( a == 1'b1 )begin
+      $error("Error :: output is not hitgh");
+    end
+    $finish;  
   end
 
 endmodule
