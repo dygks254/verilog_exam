@@ -30,3 +30,8 @@ make
 make TARGET=.default_sim
 ```
 
+### check lint
+```
+cd scripts
+flake8 --count --show-source --statistics
+```
