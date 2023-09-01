@@ -9,10 +9,9 @@ module top_module(
 
     wire ena_ss, ena_mm, ena_hh;
     
-    assign ena_ss = 1'b1;
+    assign ena_ss = ena;
     assign ena_mm = ss==8'h59 ? 1'b1 : 1'b0;
-    //assign ena_hh = mm==8'h59 ? 1'b1 : 1'b0;
-    assign ena_hh = 1'b0;
+    assign ena_hh = {mm,ss}==16'h15959 ? 1'b1 : 1'b0;
     
     bcd_60 bcd_ss(
         .clk(clk),
@@ -36,7 +35,7 @@ module top_module(
     always @(posedge clk)begin
         if(reset) 
             pm <= 1'b0;
-        else if( {hh,mm,ss} == 12'h125959 )
+        else if( {hh,mm,ss} == 24'h115959 )
             pm <= ~pm;
         else
             pm <= pm;
@@ -63,7 +62,7 @@ module bcd_60(
     always @(posedge clk)begin
         if(reset || (q[7:0]==8'h59 && ena)) 
             q[7:4] <= 8'b0;
-        else if(q[3:0]==4'h9 && ena)
+        else if((q[3:0]==4'h9)&& ena)
             q[7:4] <= q[7:4] + 4'b1;
         else
             q[7:4] <= q[7:4];
@@ -81,7 +80,9 @@ module bcd_12(
     always @(posedge clk)begin
         if(reset)
             q[3:0] <= 4'h2;
-        else if((q[3:0]==4'h9&&ena) || (q[7:0]==8'h12&&ena))
+        else if((q[7:0]==8'h12&&ena))
+            q[3:0] <= 4'b1;
+        else if((q[3:0]==4'h9&&ena))
             q[3:0] <= 4'b0;
         else if(ena)
             q[3:0] <= q[3:0] + 4'b1;
@@ -94,8 +95,8 @@ module bcd_12(
             q[7:4] <= 4'h1;
         else if((q[7:0]==8'h12)&&ena)
             q[7:4] <= 4'b0;
-        else if((q[7:4]==4'h9)&&ena)
-            q[7:4] <= q[7:4] + 4'b1;
+        else if((q[3:0]==4'h9)&&ena)
+            q[7:4] <= 4'b1;
         else
             q[7:4] <= q[7:4];
     end
