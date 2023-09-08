@@ -35,3 +35,5 @@ make TARGET=.default_sim
 cd scripts
 flake8 --count --show-source --statistics
 ```
+
+Used Quartus II
