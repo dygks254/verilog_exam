@@ -8,10 +8,10 @@ module top_module(
 
     // State transition logic: Derive an equation for each state flip-flop.
     assign next_state[A] = ~in & ( state[0] | state[2] );
-    assign next_state[B] =  in & ( ~state[2] );
+    assign next_state[B] =  in & ( |{state[3],state[1:0]} );
     assign next_state[C] = ~in & ( state[1] | state[3] );
     assign next_state[D] =  in & state[2];
 
-    assign out = state == 4'h8 ? 'b1 : 'b0;
+    assign out = state[D] == 'b1 ? 'b1 : 'b0;
 
 endmodule
