@@ -14,8 +14,8 @@ module top_module(
     assign next_state[C] = ~in & ( state[1] | state[3] );
     assign next_state[D] =  in & state[2];
     
-    always @(posedge clk, negedge areset)begin
-        if(!areset)
+    always @(posedge clk, posedge areset)begin
+        if(areset)
             state <= 'h0;
         else
             state <= next_state;
