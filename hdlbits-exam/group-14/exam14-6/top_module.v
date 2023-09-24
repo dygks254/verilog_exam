@@ -4,23 +4,26 @@ module top_module(
     input areset,
     output out); //
 
-    parameter A=0, B=1, C=2, D=3;
-
-    wire [3:0] next_state;
-    reg  [3:0] state;
+    reg [2:0] state, next_state;
+    parameter A=1, B=2, C=3, D=4;
     
-    assign next_state[A] = ~in & ( state[0] | state[2] );
-    assign next_state[B] =  in & ( |{state[3],state[1:0]} );
-    assign next_state[C] = ~in & ( state[1] | state[3] );
-    assign next_state[D] =  in & state[2];
-    
-    always @(posedge clk, posedge areset)begin
-        if(areset)
-            state <= 'h0;
-        else
-            state <= next_state;
+    always @(*) begin
+        case (state)
+            A: next_state <= in ? B : A;
+            B: next_state <= in ? B : C;
+            C: next_state <= in ? D : A;
+            D: next_state <= in ? B : C;
+        endcase
     end
-    
-    assign out = state[D] == 'b1 ? 'b1 : 'b0;
+
+    always @(posedge clk or posedge areset) begin
+        if(areset) begin
+            state <= A;
+        end else begin
+            state <= next_state;
+        end
+    end
+
+    assign out = (state == D);
 
 endmodule
