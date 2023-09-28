@@ -41,8 +41,6 @@ default: clean check
 	$(VERILATOR) -cc --exe --build -j +incdir+$(TARGET_ABS) $(TARGET_ABS)/top.sv $(TARGET_ABS)/sim_main.cpp
 	@echo "-- RUN ---------------------"
 	@echo "-- RUN ---------------------"
-	@echo "-- RUN ---------------------"
-	@echo "-- RUN ---------------------"
 	cd $(FDIR)/build/$(notdir $(TARGET_ABS)); \
 	obj_dir/Vtop 2>&1 | tee sim.log
 	@echo "-- DONE --------------------"
