@@ -5,56 +5,18 @@ module top_module(
     output out1,
     output out2);
     
-    parameter S0=0, S1=1, S2=2, S3=3, S4=4, S5=5, S6=6, S7=7, S8=8, S9=9;
-    
-    always @(*)begin
-        S0 : begin
-            if(in)  next_state <= S1;
-            else    next_state <= S0;
-            end
-        S1 : begin
-            if(in)  next_state <= S2;
-            else    next_state <= S0;
-            end
-        S2 : begin
-            if(in)  next_state <= S3;
-            else    next_state <= S0;
-            end
-        S3 : begin
-            if(in)  next_state <= S4;
-            else    next_state <= S0;
-            end
-        S4 : begin
-            if(in)  next_state <= S5;
-            else    next_state <= S0;
-            end
-        S5 : begin
-            if(in)  next_state <= S6;
-            else    next_state <= S8;
-            end
-        S6 : begin
-            if(in)  next_state <= S7;
-            else    next_state <= S9;
-            end
-        S7 : begin
-            if(in)  next_state <= S7;
-            else    next_state <= S0;
-            end
-        S8 : begin
-            if(in)  next_state <= S1;
-            else    next_state <= S0;
-            end
-        S9 : begin
-            if(in)  next_state <= S1;
-            else    next_state <= S0;
-            end
-    end
+    assign next_state[0] = (~in) & (|{state[9:7],state[4:0]});
+    assign next_state[1] = in & (state[0]|state[9]|state[8]);
+    assign next_state[2] = in & (state[1]);
+    assign next_state[3] = in & (state[2]);
+    assign next_state[4] = in & (state[3]);
+    assign next_state[5] = in & (state[4]);
+    assign next_state[6] = in & (state[5]);
+    assign next_state[7] = in & (state[6] | state[7]);
+    assign next_state[8] = (~in) & (state[5]);
+    assign next_state[9] = (~in) & (state[6]);
+
+    assign out1 = | state[9:8];
+    assign out2 = state[7] | state[9];
 
 endmodule
-
-
-
-
-
-
-
