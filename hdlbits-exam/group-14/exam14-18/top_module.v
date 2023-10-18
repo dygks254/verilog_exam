@@ -10,6 +10,8 @@ module top_module(
     reg [2:0] state, next_state;
     reg [7:0] data;
 
+    wire pari_reset, odd;
+
     always @(*) begin
         case (state)
             IDLE: next_state <= in ? IDLE : RUNNING;
@@ -24,7 +26,10 @@ module top_module(
                     data[num8] <= in;
                 end
             end
-            PARITY: 
+            PARITY: begin
+                if(in)  next_state <= PARITY;
+                else    next_state <= RUNNING;
+            end
             DONE: begin
                 next_state <= in ? IDLE : RUNNING;
                 out_byte <= data;
@@ -50,7 +55,14 @@ module top_module(
     end
     assign done = (state == DONE);
 
-    
+    assign pari_reset = ( state == PARITY );
+    parity parity_0 (
+        .clk(clk),
+        .reset(pari_reset),
+        .in(in),
+        .odd(odd)
+    )
+
 endmodule
 
 
