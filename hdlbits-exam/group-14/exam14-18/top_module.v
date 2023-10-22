@@ -45,9 +45,7 @@ module top_module(
         end else begin
             if((state == RUNNING)&&(num8!=8)) begin
                 num8 <= num8 + 1;
-            end else if(state == ERROR) begin
-                num8 <= 0;
-            end else if(state == DONE) begin
+            end else if( (state == ERROR) || (state == DONE) || (state == PARITY)) begin
                 num8 <= 0;
             end
             state <= next_state;
@@ -61,7 +59,7 @@ module top_module(
         .reset(pari_reset),
         .in(in),
         .odd(odd)
-    )
+    );
 
 endmodule
 
